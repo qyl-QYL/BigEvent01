@@ -48,7 +48,7 @@ $(function () {
             method: 'POST',
             url: '/my/update/avatar',
             data: {
-                avater: dataURL
+                avatar: dataURL
             },
             success: function (res) {
                 if (res.status !== 0) {
