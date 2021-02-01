@@ -88,27 +88,33 @@ $(function () {
 
 
 
-    function renderPage(total) {
-        laypage.render({
-            elem: 'pageBox',
-            count: total,
-            limit: q.pagesize,
-            curr: q.pagenum,
-            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
-            limits: [2, 3, 5, 10],
-
-            jump: function (obj, first) {
-                //  console.log(obj.curr);
-                console.log(arguments);
-                q.pagenum = obj.curr,
-
-                    q.pagesize = obj.limit
-                if (!first) {
-                    initCate()
-                }
-            }
-        })
-    }
+   // 定义渲染分页的方法
+function renderPage(total) {
+    // 调用 laypage.render() 方法来渲染分页的结构
+    laypage.render({
+      elem: 'pageBox', // 分页容器的 Id
+      count: total, // 总数据条数
+      limit: q.pagesize, // 每页显示几条数据
+      curr: q.pagenum, // 设置默认被选中的分页
+      layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+      limits: [2, 3, 5, 10],
+      // 分页发生切换的时候，触发 jump 回调
+      // 触发 jump 回调的方式有两种：
+      // 1. 点击页码的时候，会触发 jump 回调
+      // 2. 只要调用了 laypage.render() 方法，就会触发 jump 回调
+      jump: function(obj, first) {
+        // 可以通过 first 的值，来判断是通过哪种方式，触发的 jump 回调
+        // 把最新的页码值，赋值到 q 这个查询参数对象中
+        q.pagenum = obj.curr
+        // 把最新的条目数，赋值到 q 这个查询参数对象的 pagesize 属性中
+        q.pagesize = obj.limit
+        // 根据最新的 q 获取对应的数据列表，并渲染表格
+        if (!first) {
+          initTable()
+        }
+      }
+    })
+}
 
 
     $('body').on('click', '.btn-delete', function () {
